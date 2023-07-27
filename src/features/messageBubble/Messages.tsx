@@ -16,6 +16,7 @@ const Messages = () => {
     "https://gorest.co.in/public/v1/users"
   );
 
+  // Dispatch action to fetch messages each time the URL changes
   useEffect(() => {
     dispatch(getMessages(fetchURL));
   }, [fetchURL]);
@@ -26,8 +27,9 @@ const Messages = () => {
     threshold: 1,
   });
 
-  const lastElement = useRef<HTMLElement>(null);
+  const lastElementofPage = useRef<HTMLElement>(null);
 
+  // Fetch data from next page if it is intersecting
   useEffect(() => {
     if (entry?.isIntersecting && pagination?.links?.next) {
       setFetchURL(pagination?.links?.next);
@@ -35,13 +37,15 @@ const Messages = () => {
   }, [entry]);
 
   const scrollToBottom = () => {
-    lastElement.current?.scrollIntoView({ behavior: "instant" });
+    lastElementofPage.current?.scrollIntoView({ behavior: "instant" });
   };
 
+  // To maintain scroll position
   useLayoutEffect(() => {
     scrollToBottom();
   }, [messages]);
 
+  // To reset state on save or initial renders
   useEffect(() => {
     dispatch(reset());
   }, [dispatch]);
@@ -65,7 +69,7 @@ const Messages = () => {
                 return (
                   <MessageBubble
                     key={index}
-                    ref={lastElement}
+                    ref={lastElementofPage}
                     name={message.name}
                     id={message.id}
                   />
