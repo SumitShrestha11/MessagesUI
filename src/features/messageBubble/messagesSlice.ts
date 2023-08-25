@@ -54,7 +54,6 @@ const messagesSlice = createSlice({
         state.status = "loading";
       })
       .addCase(getMessages.fulfilled, (state, action) => {
-        console.log(action.payload, "payload");
         state.messages = state.messages.concat(
           action.payload.data.sort((a: IMessage, b: IMessage) =>
             a.id > b.id ? 1 : -1
